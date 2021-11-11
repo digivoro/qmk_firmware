@@ -13,7 +13,7 @@ enum sofle_layers { // las capas en este keymap
 enum custom_keycodes { // dando nombre de keycodes por definir
     LOWER = SAFE_RANGE,
     RAISE,
-    QUOTE,
+    // QUOTE,
     HUI,
     HUD
 };
@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  |--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|          
      KC_LCTRL,  KC_Z,   KC_X,    KC_C,    KC_V,   KC_B,    XXXXXXX,         XXXXXXX,  KC_N,   KC_M,   KC_COMM,  KC_DOT, KC_SCLN, KC_SLSH,
 //  '--------+--------+--------+--------+--------+--------+--------|      |--------+--------+--------+--------+--------+--------+--------'
-                        KC_DEL, KC_LALT , KC_LCMD, LOWER,  KC_SPC,        KC_ENT,  RAISE, TD(ALT), RALT(KC_SLSH), QUOTE
+                        KC_DEL, KC_LALT , KC_LCMD, LOWER,  KC_SPC,        KC_ENT,  RAISE, TD(ALT), RALT(KC_SLSH), KC_QUOTE
 //                    '--------'--------'--------'--------'--------'      '--------'--------'--------'--------'--------'                 
     ),
 
@@ -657,15 +657,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;         
                  
-        case QUOTE:
-            if (record->event.pressed) {
-                register_code(KC_QUOTE);
-                register_code(KC_SPACE);
-            } else { 
-                unregister_code(KC_QUOTE);   
-                unregister_code(KC_SPACE);
-            }
-            return false;       
+        // case QUOTE:
+        //     if (record->event.pressed) {
+        //         register_code(KC_QUOTE);
+        //         register_code(KC_SPACE);
+        //     } else { 
+        //         unregister_code(KC_QUOTE);   
+        //         unregister_code(KC_SPACE);
+        //     }
+        //     return false;       
 
         case HUI:
             if (record->event.pressed) {
