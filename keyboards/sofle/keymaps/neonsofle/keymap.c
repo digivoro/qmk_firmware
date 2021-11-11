@@ -44,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       |----------+-------+-------+-------+-------+----------------.        .--------|-------+-------+-------+-------+-------+---------|
       |  CTRL    |   Z   |   X   |   C   |   V   |   B   |        |        |        |   N   |   M   |  , <  |  . >  |  ; :  |   / ?   |
       '------------------+-------+-------+-------+-------+--------|        |--------+-------+-------+-------+-------+-------+---------'
-                         |  DEL  | PRINT |  CMD  | LOWER |  SPACE |        | ENTER  | RAISE |ALT/GR |  � !  |  ' "  |
+                         |  DEL  |  ALT  |  CMD  | LOWER |  SPACE |        | ENTER  | RAISE |ALT/GR |  � !  |  ' "  |
                          '----------------------------------------'        '----------------------------------------'
 */
 
@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  |--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|          
      KC_LCTRL,  KC_Z,   KC_X,    KC_C,    KC_V,   KC_B,    XXXXXXX,         XXXXXXX,  KC_N,   KC_M,   KC_COMM,  KC_DOT, KC_SCLN, KC_SLSH,
 //  '--------+--------+--------+--------+--------+--------+--------|      |--------+--------+--------+--------+--------+--------+--------'
-                        KC_DEL, KC_PSCREEN, KC_LCMD, LOWER,  KC_SPC,        KC_ENT,  RAISE, TD(ALT), RALT(KC_SLSH), QUOTE
+                        KC_DEL, KC_LALT , KC_LCMD, LOWER,  KC_SPC,        KC_ENT,  RAISE, TD(ALT), RALT(KC_SLSH), QUOTE
 //                    '--------'--------'--------'--------'--------'      '--------'--------'--------'--------'--------'                 
     ),
 
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       |----------+-------+-------+-------+-------+----------------.        .--------|-------+-------+-------+-------+-------+---------|
       |  CTRL    |       |  CUT  |  COPY | PASTE |       |        |        |        |       |       |       |       |       |         |
       '------------------+-------+-------+-------+-------+--------|        |--------+-------+-------+-------+-------+-------+---------'
-                         |  DEL  |       |  CMD  |       |  SPACE |        | ENTER  | RAISE |ALT/GR |       |       |
+                         |  DEL  |  ALT  |  CMD  |       |  SPACE |        | ENTER  | RAISE |ALT/GR |       |       |
                          '----------------------------------------'        '----------------------------------------'
 */
 
@@ -86,7 +86,7 @@ KC_LSFT, LSFT(KC_LBRC), LSFT(KC_RBRC), KC_LBRC, KC_RBRC, XXXXXXX,               
 //  |--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|                          
      KC_LCTRL, XXXXXXX, KC_CUT, KC_COPY, KC_PASTE, XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
 //  '--------+--------+--------+--------+--------+--------+--------|      |--------+--------+--------+--------+--------+--------+--------'  
-                        KC_DEL, XXXXXXX, KC_LCMD, XXXXXXX, KC_SPC,          KC_ENT,  RAISE,  TD(ALT), XXXXXXX, XXXXXXX
+                        KC_DEL, KC_ALT, KC_LCMD, XXXXXXX, KC_SPC,          KC_ENT,  RAISE,  TD(ALT), XXXXXXX, XXXXXXX
 //                    '--------------------------------------------'      '--------------------------------------------'                      
     ),
 
@@ -100,7 +100,7 @@ KC_LSFT, LSFT(KC_LBRC), LSFT(KC_RBRC), KC_LBRC, KC_RBRC, XXXXXXX,               
       |----------+-------+-------+-------+-------+----------------.        .--------|-------+-------+-------+-------+-------+---------|
       |  CTRL    |       |       |       |       |       |        |        |        |       |       |       |       |       |         |
       '------------------+-------+-------+-------+-------+--------|        |--------+-------+-------+-------+-------+-------+---------'
-                         |  DEL  |       |  CMD  | LOWER |  SPACE |        | ENTER  |       |ALT/GR |       |       |
+                         |  DEL  |  ALT  |  CMD  | LOWER |  SPACE |        | ENTER  |       |ALT/GR |       |       |
                          '----------------------------------------'        '----------------------------------------'
 */
 
@@ -114,7 +114,7 @@ KC_LSFT, RALT(KC_QUOT), KC_GRAVE, KC_BSLS, LSFT(KC_BSLS), XXXXXXX,              
 //  |--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|       
      KC_LCTRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
 //  '--------+--------+--------+--------+--------+--------+--------|      |--------+--------+--------+--------+--------+--------+--------'    
-                        KC_DEL, XXXXXXX, KC_LCMD,  LOWER,   KC_SPC,         KC_ENT, XXXXXXX, TD(ALT), XXXXXXX, XXXXXXX
+                        KC_DEL, KC_ALT, KC_LCMD,  LOWER,   KC_SPC,         KC_ENT, XXXXXXX, TD(ALT), XXXXXXX, XXXXXXX
 //                    '--------------------------------------------'      '--------------------------------------------'                        
     ),
 
@@ -197,7 +197,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             
         case _RAISE:
             if (!host_keyboard_led_state().caps_lock) {
-                rgblight_sethsv(245, 255, current_val);
+                rgblight_sethsv(HSV_GOLD);
             }
             break;
         
