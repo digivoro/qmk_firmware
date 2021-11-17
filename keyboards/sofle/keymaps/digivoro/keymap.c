@@ -135,6 +135,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+
+// Variables
+
+uint8_t current_hue;
+uint8_t current_val;
+
+
+// Lógica
+
+void keyboard_post_init_user(void) {
+    current_hue = rgblight_get_hue();
+    current_val = RGBLIGHT_LIMIT_VAL;
+}    
+
+void led_set_user(uint8_t usb_led) {
+    if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
+        rgblight_sethsv(20, 255, current_val); // amarillo
+    } else { 
+        rgblight_sethsv(current_hue, 255, current_val);
+    }
+}
+
 #ifdef OLED_ENABLE
 
 static void render_logo(void) {
@@ -163,7 +185,7 @@ static void print_status_narrow(void) {
             oled_write_ln_P(PSTR("Qwrt"), false);
             break;
         case _DVORAK:
-            oled_write_ln_P(PSTR("Clmk"), false);
+            oled_write_ln_P(PSTR("Dvrk"), false);
             break;
         default:
             oled_write_P(PSTR("Undef"), false);
