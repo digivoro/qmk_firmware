@@ -5,7 +5,7 @@
 #define PRODUCT_ID      0x0287
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    Keyhive
-#define PRODUCT         Sharon
+#define PRODUCT         Sofle
 #define DESCRIPTION     Rose version of the Sofle
 #define MASTER_RIGHT
 
