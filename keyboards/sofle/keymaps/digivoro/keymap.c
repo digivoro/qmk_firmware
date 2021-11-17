@@ -63,12 +63,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            `----------------------------------'           '------''---------------------------'
  */
 
-[_DVORAK] = LAYOUT( \
+[_DVORAK] = LAYOUT(
   KC_GRV,      KC_1,     KC_2,     KC_3,     KC_4,     KC_5,                           KC_6,     KC_7,     KC_8,     KC_9,     KC_0,   KC_GRV,
   KC_ESC,   KC_SCLN,  KC_COMM,   KC_DOT,     KC_P,     KC_Y,                           KC_F,     KC_G,     KC_C,     KC_R,     KC_L,  KC_BSPC,
   KC_TAB,      KC_A,     KC_O,     KC_E,     KC_U,     KC_I,                           KC_D,     KC_H,     KC_T,     KC_N,     KC_S,  KC_MINS,
   KC_LSFT,  KC_QUOT,     KC_Q,     KC_J,     KC_K,     KC_X,  KC_MUTE,    XXXXXXX,     KC_B,     KC_M,     KC_W,     KC_V,     KC_Z,  KC_RSFT,
-                      KC_LGUI,  KC_LALT, KC_LCTRL, KC_LOWER,   KC_SPC,     KC_ENT, KC_RAISE, KC_RCTRL,  KC_RALT,  KC_RGUI \
+                      KC_LGUI,  KC_LALT, KC_LCTRL, KC_LOWER,   KC_SPC,     KC_ENT, KC_RAISE, KC_RCTRL,  KC_RALT,  KC_RGUI
 ),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -135,28 +135,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
-
-// Variables
-
-uint8_t current_hue;
-uint8_t current_val;
-
-
-// Lógica
-
-void keyboard_post_init_user(void) {
-    current_hue = rgblight_get_hue();
-    current_val = RGBLIGHT_LIMIT_VAL;
-}    
-
-void led_set_user(uint8_t usb_led) {
-    if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
-        rgblight_sethsv(20, 255, current_val); // amarillo
-    } else { 
-        rgblight_sethsv(current_hue, 255, current_val);
-    }
-}
-
 #ifdef OLED_ENABLE
 
 static void render_logo(void) {
@@ -171,45 +149,47 @@ static void render_logo(void) {
 
 static void print_status_narrow(void) {
     // Print current mode
-    oled_write_P(PSTR("\n\n"), false);
-    oled_write_ln_P(PSTR("MODE"), false);
-    oled_write_ln_P(PSTR(""), false);
+    oled_write_ln_P(PSTR("Mode"), false);
     if (keymap_config.swap_lctl_lgui) {
         oled_write_ln_P(PSTR("MAC"), false);
     } else {
         oled_write_ln_P(PSTR("WIN"), false);
     }
-
+    oled_write_ln_P(PSTR("  *  "), false);
+    oled_write_P(PSTR("\n\n"), false);
+    oled_write_ln_P(PSTR("Layout"), false);
     switch (get_highest_layer(default_layer_state)) {
         case _QWERTY:
-            oled_write_ln_P(PSTR("Qwrt"), false);
+            oled_write_ln_P(PSTR("QWRTY"), false);
             break;
         case _DVORAK:
-            oled_write_ln_P(PSTR("Dvrk"), false);
+            oled_write_ln_P(PSTR("DVRAK"), false);
             break;
         default:
             oled_write_P(PSTR("Undef"), false);
     }
+    oled_write_ln_P(PSTR("  *  "), false);
     oled_write_P(PSTR("\n\n"), false);
     // Print current layer
-    oled_write_ln_P(PSTR("LAYER"), false);
+    oled_write_ln_P(PSTR("Layer"), false);
     switch (get_highest_layer(layer_state)) {
         case _DVORAK:
         case _QWERTY:
-            oled_write_P(PSTR("Base\n"), false);
+            oled_write_P(PSTR("BASE\n"), false);
             break;
         case _RAISE:
-            oled_write_P(PSTR("Raise"), false);
+            oled_write_P(PSTR("RAISE"), false);
             break;
         case _LOWER:
-            oled_write_P(PSTR("Lower"), false);
+            oled_write_P(PSTR("LOWER"), false);
             break;
         case _ADJUST:
-            oled_write_P(PSTR("Adj\n"), false);
+            oled_write_P(PSTR("ADJ"), false);
             break;
         default:
             oled_write_ln_P(PSTR("Undef"), false);
     }
+    oled_write_ln_P(PSTR("  *  "), false);
     oled_write_P(PSTR("\n\n"), false);
     led_t led_usb_state = host_keyboard_led_state();
     oled_write_ln_P(PSTR("CPSLK"), led_usb_state.caps_lock);
