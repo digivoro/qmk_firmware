@@ -19,7 +19,8 @@ enum custom_keycodes {
     KC_NXTWD,
     KC_LSTRT,
     KC_LEND,
-    KC_DLINE
+    KC_DLINE,
+    KC_BSPC_DEL
 };
 
 
@@ -42,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = LAYOUT(
   KC_GRV,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_GRV,
-  KC_ESC,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_BSPC,
+  KC_ESC,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,KC_BSPC_DEL,
   KC_TAB,   KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_QUOT,
   KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_MUTE,     XXXXXXX,KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT,
                  KC_LGUI,KC_LALT,KC_LCTRL, KC_LOWER, KC_SPC,      KC_ENT,  KC_RAISE, KC_RCTRL, KC_RALT, KC_RGUI
@@ -65,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_DVORAK] = LAYOUT(
   KC_GRV,      KC_1,     KC_2,     KC_3,     KC_4,     KC_5,                           KC_6,     KC_7,     KC_8,     KC_9,     KC_0,   KC_GRV,
-  KC_ESC,   KC_SCLN,  KC_COMM,   KC_DOT,     KC_P,     KC_Y,                           KC_F,     KC_G,     KC_C,     KC_R,     KC_L,  KC_BSPC,
+  KC_ESC,   KC_SCLN,  KC_COMM,   KC_DOT,     KC_P,     KC_Y,                           KC_F,     KC_G,     KC_C,     KC_R,   KC_L,KC_BSPC_DEL,
   KC_TAB,      KC_A,     KC_O,     KC_E,     KC_U,     KC_I,                           KC_D,     KC_H,     KC_T,     KC_N,     KC_S,  KC_MINS,
   KC_LSFT,  KC_QUOT,     KC_Q,     KC_J,     KC_K,     KC_X,  KC_MUTE,    XXXXXXX,     KC_B,     KC_M,     KC_W,     KC_V,     KC_Z,  KC_RSFT,
                       KC_LGUI,  KC_LALT, KC_LCTRL, KC_LOWER,   KC_SPC,     KC_ENT, KC_RAISE, KC_RCTRL,  KC_RALT,  KC_RGUI
@@ -289,8 +290,6 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
     }
 }
 
-/* KEYBOARD PET END */
-
 static void print_logo_narrow(void) {
     render_logo();
 
@@ -308,52 +307,6 @@ static void print_logo_narrow(void) {
     oled_write(" wpm", false);
 }
 
-// static void print_status_narrow(void) {
-//     // Print current mode 
-//     oled_write_ln_P(PSTR("Sofle"), false);
-//     oled_write_P(PSTR("\n\n"), false);
-//     if (keymap_config.swap_lctl_lgui) {
-//         oled_write_ln_P(PSTR("MAC"), false);
-//     } else {
-//         oled_write_ln_P(PSTR("WIN"), false);
-//     }
-//     oled_write_P(PSTR(""), false);
-//     oled_write_ln_P(PSTR("Kbrd:"), false);
-//     switch (get_highest_layer(default_layer_state)) {
-//         case _QWERTY:
-//             oled_write_ln_P(PSTR("QWRTY"), false);
-//             break;
-//         case _DVORAK:
-//             oled_write_ln_P(PSTR("DVRAK"), false);
-//             break;
-//         default:
-//             oled_write_P(PSTR("Undef"), false);
-//     }
-//     oled_write_P(PSTR(""), false);
-//     // Print current layer
-//     oled_write_ln_P(PSTR("Layr:"), false);
-//     switch (get_highest_layer(layer_state)) {
-//         case _DVORAK:
-//         case _QWERTY:
-//             oled_write_P(PSTR("BASE"), false);
-//             break;
-//         case _RAISE:
-//             oled_write_P(PSTR("RAISE"), false);
-//             break;
-//         case _LOWER:
-//             oled_write_P(PSTR("LOWER"), false);
-//             break;
-//         case _ADJUST:
-//             oled_write_P(PSTR("ADJ"), false);
-//             break;
-//         default:
-//             oled_write_ln_P(PSTR("Undef"), false);
-//     }
-//     oled_write_P(PSTR(""), false);
-//     led_t led_usb_state = host_keyboard_led_state();
-//     oled_write_ln_P(PSTR("CPSLK"), led_usb_state.caps_lock);
-// }
-
 static void print_status_narrow(void) {
     /* Print current mode */
     oled_set_cursor(0, 0);
@@ -364,7 +317,6 @@ static void print_status_narrow(void) {
     }
 
     oled_set_cursor(0, 3);
-
     switch (get_highest_layer(default_layer_state)) {
         case _QWERTY:
             oled_write("QWRTY", false);
@@ -376,13 +328,11 @@ static void print_status_narrow(void) {
             oled_write("UNDEF", false);
     }
 
-    oled_set_cursor(0, 5);
-
     /* Print current layer */
+    oled_set_cursor(0, 5);
     oled_write("Layer", false);
 
     oled_set_cursor(0, 6);
-
     switch (get_highest_layer(layer_state)) {
         case _DVORAK:
         case _QWERTY:
@@ -401,24 +351,12 @@ static void print_status_narrow(void) {
             oled_write("UNDEF", false);
     }
 
-    /* caps lock */
-    oled_set_cursor(0, 8);
-    oled_write("CPSLK", led_usb_state.caps_lock);
-
-    /* KEYBOARD PET RENDER START */
-
+    /* KEYBOARD PET RENDER */
     render_luna(0, 13);
-
-    /* KEYBOARD PET RENDER END */
 }
 
 
-oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (is_keyboard_master()) {
-        return OLED_ROTATION_270;
-    }
-    return rotation;
-}
+oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_270; }
 
 bool oled_task_user(void) {
     /* KEYBOARD PET VARIABLES START */
@@ -595,6 +533,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_Z);
             }
             return false;
+
+        /* Smart Backspace Delete */
+        case KC_RSFT:
+        case KC_LSFT:
+            shift_held = record->event.pressed;
+            held_shift = keycode;
+            break;
+        case KC_BSPC_DEL:
+            if (record->event.pressed) {
+                if (shift_held) {
+                    unregister_code(held_shift);
+                    register_code(KC_DEL);
+                } else {
+                    register_code(KC_BSPC);
+                }
+            } else {
+                unregister_code(KC_DEL);
+                unregister_code(KC_BSPC);
+                if (shift_held) {
+                    register_code(held_shift);
+                }
+            }
+            return false;
+
+        /* Keyboard pet status */
+        case KC_LCTL:
+        case KC_RCTL:
+            if (record->event.pressed) {
+                isSneaking = true;
+            } else {
+                isSneaking = false;
+            }
+            break;
+        case KC_SPC:
+            if (record->event.pressed) {
+                isJumping  = true;
+                showedJump = false;
+            } else {
+                isJumping = false;
+            }
+            break;
     }
     return true;
 }
@@ -604,9 +583,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
             tap_code(KC_VOLD);
+        } else {
+            tap_code(KC_VOLU);
         }
     } else if (index == 1) {
         if (clockwise) {
